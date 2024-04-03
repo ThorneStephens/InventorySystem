@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Inventory Management</h1>
+
+    <h2>Add/Subtract Item</h2>
+    <form id="addSubtractItemForm">
+        <label for="itemCode">Item Code:</label>
+        <input type="text" id="itemCode" name="itemCode" required>
+        <label for="itemQuantity">Quantity:</label>
+        <input type="number" id="itemQuantity" name="itemQuantity" required>
+        <button type="submit">Add/Subtract</button>
+    </form>
+
+    <h2>Inventory</h2>
+    <table id="inventoryTable">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="inventoryBody">
+        </tbody>
+    </table>
+
+    <h2>Data Log</h2>
+    <ul id="dataLog"></ul>
+
+    <script>
+        document.getElementById("addSubtractItemForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var itemCode = document.getElementById("itemCode").value;
+            var itemQuantity = parseInt(document.getElementById("itemQuantity").value);
+
+            var inventoryItem = document.querySelector(`#inventoryBody tr[data-item="${itemCode}"]`);
+            if (inventoryItem) {
+                var currentQuantity = parseInt(inventoryItem.querySelector(".item-quantity").textContent);
+                var newQuantity = currentQuantity + itemQuantity;
+                inventoryItem.querySelector(".item-quantity").textContent = newQuantity;
+            } else {
+                inventoryItem = document.createElement("tr");
+                inventoryItem.setAttribute("data-item", itemCode);
+
+                var itemName = document.createElement("td");
+                itemName.textContent = itemCode;
+                var itemQuantityCell = document.createElement("td");
+                itemQuantityCell.textContent = itemQuantity;
+                itemQuantityCell.classList.add("item-quantity");
+                var actionsCell = document.createElement("td");
+                var modifyButton = document.createElement("button");
+                modifyButton.textContent = "Modify";
+                actionsCell.appendChild(modifyButton);
+
+                inventoryItem.appendChild(itemName);
+                inventoryItem.appendChild(itemQuantityCell);
+                inventoryItem.appendChild(actionsCell);
+
+                document.getElementById("inventoryBody").appendChild(inventoryItem);
+            }
+
+            var logItem = document.createElement("li");
+            logItem.textContent = "Item: " + itemCode + ", Quantity: " + itemQuantity;
+            document.getElementById("dataLog").appendChild(logItem);
+
+            document.getElementById("itemCode").value = "";
+            document.getElementById("itemQuantity").value = "";
+        });
+
+        document.getElementById("inventoryBody").addEventListener("click", function(event) {
+            if (event.target.tagName === "BUTTON" && event.target.textContent === "Modify") {
+                var inventoryItem = event.target.closest("tr");
+                var itemCode = inventoryItem.getAttribute("data-item");
+                var currentQuantity = parseInt(inventoryItem.querySelector(".item-quantity").textContent);
+                var newQuantity = parseInt(prompt("Enter new quantity for item " + itemCode, currentQuantity));
+                if (!isNaN(newQuantity)) {
+                    inventoryItem.querySelector(".item-quantity").textContent = newQuantity;
+                    var logItem = document.createElement("li");
+                    logItem.textContent = "Item: " + itemCode + ", Quantity modified to: " + newQuantity;
+                    document.getElementById("dataLog").appendChild(logItem);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

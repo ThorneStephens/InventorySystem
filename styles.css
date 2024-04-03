@@ -1,0 +1,75 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set a base font size and line height */
+html {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Apply a mobile-first responsive layout */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    padding: 20px;
+    max-width: 1200px; /* Adjust the max-width to fit a laptop screen */
+    margin: 0 auto; /* Center the content horizontally */
+}
+
+/* Center the content */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Style headings */
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Style paragraphs */
+p {
+    margin-bottom: 15px;
+}
+
+/* Style links */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Add responsive styles for smaller screens */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        max-width: 100%;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+}
